@@ -1,19 +1,32 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, Menu, BrowserWindow} = require('electron')
+const Store = require("electron-store");
+
+const store = new Store();
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
+
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  let width = store.get("windowWidth", 800);
+  let height = store.get("windowHeight", 600);  
+
+  mainWindow = new BrowserWindow({width, height});
 
   // and load the index.html of the app.
-  mainWindow.loadFile('index.html')
+  mainWindow.loadFile('index.html');
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
+
+  mainWindow.on("resize", () => {
+    let {width, height} = mainWindow.getBounds();
+    store.set("windowWidth", width);
+    store.set("windowHeight", height);    
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -21,7 +34,7 @@ function createWindow () {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null
-  })
+  });
 }
 
 // This method will be called when Electron has finished

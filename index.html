@@ -8,8 +8,13 @@
     </style>
   </head>
   <body>
-    <p>fakenews</p>
     <div class="image-upload"></div>
+    <div class="js-upload-image-filename"></div>
+
+    <span>Quality</span>
+    <input type="number" class="js-upload-image-quality-input" min="1" max="100" value="70">
+    <input type="range" min="1" max="100" class="js-upload-image-quality-slider" value="70">
+    <button class="js-upload-product-image">Upload product image</button>
     <script>
       // You can also require other files to run in this process
       require('./renderer.js');
